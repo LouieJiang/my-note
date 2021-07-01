@@ -550,3 +550,74 @@ store.subscribe(render)
 3. getState 获取状态值
 4. dispatch 提交更新
 5. subscribe 变更订阅
+
+## react-redux
+
+[React Redux]([react-redux 文档 · Redux](https://www.redux.org.cn/docs/react-redux/))
+
+#### 安装
+
+`npm install react-redux --save`
+
+### 使⽤ react-redux
+
+react-redux 提供了两个 api
+
+1. Provider 为后代组件提供 store
+
+2. connect 为组件提供数据和变更⽅法
+
+全局提供 store，index.js
+
+```jsx
+import React from 'react'
+import ReactDom from 'react-dom'
+import App from './App'
+import store from './store/'
+import { Provider } from 'react-redux'
+ReactDom.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.querySelector('#root')
+)
+```
+
+获取状态数据，ReactReduxPage.js
+
+```jsx
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+class ReactReduxPage extends Component {
+  render() {
+    const { num, add, minus } = this.props
+    return (
+      <div>
+        <h1>ReactReduxPage</h1>
+        <p>{num}</p>
+        <button onClick={add}>add</button>
+        <button onClick={minus}>minus</button>
+      </div>
+    )
+  }
+}
+const mapStateToProps = state => {
+  return {
+    num: state
+  }
+}
+const mapDispatchToProps = {
+  add: () => {
+    return { type: 'add' }
+  },
+  minus: () => {
+    return { type: 'minus' }
+  }
+}
+export default connect(
+  mapStateToProps, //状态映射 mapStateToProps
+  mapDispatchToProps //派发事件映射
+)(ReactReduxPage)
+```
+
+> connect 中的参数：state 映射和事件映射
