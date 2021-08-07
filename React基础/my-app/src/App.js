@@ -1,8 +1,8 @@
-import './App.css';
 import ClockClass from './components/clock-class';
 import ClockFunction from './components/clock-function';
 import ReactReduxPage from './components/ReactReduxPage';
 import ReduxPage from './components/ReduxPage';
+import RouterPage from './components/RouterPage';
 
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
       <ClockFunction />
       <ReduxPage />
       <ReactReduxPage />
+      <RouterPage />
     </div>
   );
 }

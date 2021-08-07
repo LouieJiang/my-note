@@ -621,3 +621,166 @@ export default connect(
 ```
 
 > connect 中的参数：state 映射和事件映射
+
+## react-router
+
+[react-router]([React Router: Declarative Routing for React.js](https://reactrouter.com/web/guides/quick-start))
+
+[React Router 中文文档]([Introduction | React Router 中文文档 (react-guide.github.io)](https://react-guide.github.io/react-router-cn/index.html))
+
+react-router 包含 3 个库，react-router、react-router-dom 和 react-router-native。react-router 提供最 基本的路由功能，实际使⽤的时候我们不会直接安装 react-router，⽽是根据应⽤运⾏的环境选择安装 react-router-dom（在浏览器中使⽤）或 react-router-native（在 rn 中使⽤）。react-router-dom 和 react-router-native 都依赖 react-router，所以在安装时，react-router 也会⾃动安装，创建 web 应⽤，
+
+#### 安装
+
+`npm install --save react-router-dom`
+
+#### 基本使⽤
+
+react-router 中奉⾏⼀切皆组件的思想，路由器-Router、链接-Link、路由-Route、独占-Switch、重 定向-Redirect 都以组件形式存在
+
+创建 RouterPage.js
+
+```jsx
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+export default class RouterPage extends Component {
+  render() {
+    return (
+      <div>
+        <h3>RouterPage</h3>
+        <Router>
+          <Link to="/">⾸⻚</Link>
+          <Link to="/user">⽤户中⼼</Link>
+          {/* 根路由要添加exact，实现精确匹配 */}
+          <Route
+            exact
+            path="/"
+            component={HomePage}
+            //children={() => <div>children</div>}
+            //render={() => <div>render</div>}
+          />
+          <Route path="/user" component={UserPage} />
+        </Router>
+      </div>
+    )d
+  }
+}
+class HomePage extends Component {
+  render() {
+    return (
+      <div>
+        <h3>HomePage</h3>
+      </div>
+    )
+  }
+}
+class UserPage extends Component {
+  render() {
+    return (
+      <div>
+        <h3>UserPage</h3>
+      </div>
+    )
+  }
+}
+```
+
+#### Route 渲染内容的三种⽅式
+
+Route 渲染优先级：children>component>render。
+
+这三种⽅式互斥，你只能⽤⼀种。
+
+### children：func
+
+有时候，不管 location 是否匹配，你都需要渲染⼀些内容，这时候你可以⽤ children。
+
+除了不管 location 是否匹配都会被渲染之外，其它⼯作⽅法与 render 完全⼀样。
+
+### render：func
+
+但是当你⽤ render 的时候，你调⽤的只是个函数。
+
+只在当 location 匹配的时候渲染。
+
+### component: component
+
+只在当 location 匹配的时候渲染。
+
+### 404 ⻚
+
+设定⼀个没有 path 的路由在路由列表最后⾯，表示⼀定匹配
+
+```jsx
+{
+  /* 添加Switch表示仅匹配⼀个*/
+}
+;<Switch>
+  {/* 根路由要添加exact，实现精确匹配 */}
+  <Route exact path="/" component={HomePage} />
+  <Route path="/user" component={UserPage} />
+  <Route component={EmptyPage} />
+</Switch>
+class EmptyPage extends Component {
+  render() {
+    return (
+      <div>
+        <h3>EmptyPage-404</h3>
+      </div>
+    )
+  }
+}
+```
+
+## PureComponent
+
+[React 顶层 API – React (reactjs.org)](https://zh-hans.reactjs.org/docs/react-api.html#reactpurecomponent)
+
+### 实现性能优化
+
+定制了shouldComponentUpdate后的Component
+
+```
+export default class PureComponentPage extends PureComponent {
+ constructor(props) {
+ super(props);
+ this.state = {
+ counter: 0,
+ // obj: {
+ // num: 2,
+ // },
+ };
+ }
+ setCounter = () => {this.setState({
+ counter: 100,
+ // obj: {
+ // num: 200,
+ // },
+ });
+ };
+ render() {
+ const { counter, obj } = this.state;
+ console.log("render");
+ return (
+ <div>
+ <h1>PuerComponentPage</h1>
+ <div onClick={this.setCounter}>counter: {counter}</div>
+ </div>
+ );
+ }
+}
+```
+
+### 浅比较
+
+缺点是必须要⽤class形式，⽽且要注意是浅⽐较
+
+### 与Component
+
+React.PureComponent 与 React.Component 很相似。两者的区别在于 React.Component 并未实 现 shouldComponentUpdate() ，⽽ React.PureComponent 中以浅层对⽐ prop 和 state 的⽅式来 实现了该函数。 如果赋予 React 组件相同的 props 和 state， render() 函数会渲染相同的内容，那么在某些情况下使 ⽤ React.PureComponent 可提⾼性能。
+
+>注意 
+>
+>React.PureComponent 中的 shouldComponentUpdate() 仅作对象的浅层⽐较。如果对象中 包含复杂的数据结构，则有可能因为⽆法检查深层的差别，产⽣错误的⽐对结果。仅在你的 props 和 state 较为简单时，才使⽤ React.PureComponent ，或者在深层数据结构发⽣变化时 调⽤ forceUpdate() 来确保组件被正确地更新。你也可以考虑使⽤ immutable 对象加速嵌套
+>
+>数据的⽐较。 此外， React.PureComponent 中的 shouldComponentUpdate() 将跳过所有⼦组件树的 prop 更新。因此，请确保所有⼦组件也都是“纯”的组件。
