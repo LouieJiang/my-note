@@ -34,7 +34,7 @@ module.exports = class TestNow {
     const testFileName = this.getTestFileName(filename)
 
     // 判断文件是否存在
-    if(this.fs.existsSync(testFileName)){
+    if(fs.existsSync(testFileName)){
       console.log('该测试代码已存在',testFileName);
       return
     }
@@ -53,7 +53,7 @@ module.exports = class TestNow {
   }
 
   /**
-   * 
+   * 测试代码生成
    * @param {String} methodName 
    * @param {String} classFile 
    * @param {Boolean} isClass 
