@@ -29,6 +29,18 @@ module.exports = {
         // 多个loader作用于一个模块，执行顺序是自后往前的，可以看做栈
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.less$/,
+        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.stylus$/,
+        use: ["style-loader", "css-loader", "stylus-loader"],
+      },
     ],
   },
 
@@ -38,7 +50,7 @@ module.exports = {
       title: "wepback-demo",
       filename: "index.html",
       // template: path.resolve(__dirname, 'public/index.html'),//模板文件的路径
-      template: './public/index.html',
+      template: "./public/index.html",
     }),
   ],
 };

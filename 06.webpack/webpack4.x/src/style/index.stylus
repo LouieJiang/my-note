@@ -1,0 +1,4 @@
+body
+    h2
+        height: 40px
+        background: yellow

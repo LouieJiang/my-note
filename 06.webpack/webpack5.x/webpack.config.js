@@ -9,10 +9,10 @@ module.exports = {
   entry: {
     main: "./src/index.js", // 和上面等价
   },
-//   entry: {
-//     index: "./src/index.js",
-//     login: "./src/login.js",
-//   }, // 多入口mpa
+  //   entry: {
+  //     index: "./src/index.js",
+  //     login: "./src/login.js",
+  //   }, // 多入口mpa
   // 出口
   output: {
     // 保存位置（绝对路径，默认为"/dist"的绝对地址）
@@ -27,7 +27,19 @@ module.exports = {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader","css-loader"],
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.less$/,
+        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.stylus$/,
+        use: ["style-loader", "css-loader", "stylus-loader"],
       },
     ],
   },
@@ -38,7 +50,7 @@ module.exports = {
       title: "wepback-demo",
       filename: "index.html",
       // template: path.resolve(__dirname, 'public/index.html'),//模板文件的路径
-      template: './public/index.html',
+      template: "./public/index.html",
     }),
   ],
 };
